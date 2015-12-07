@@ -1,6 +1,7 @@
 class Piece
 types
 -- TODO Define types here
+	public Colour = <White> | <Black>; 
 values
 -- TODO Define values here
 instance variables

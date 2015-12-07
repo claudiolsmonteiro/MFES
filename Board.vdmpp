@@ -1,6 +1,8 @@
 class Board
 types
 -- TODO Define types here
+	public height = nat1;
+	public width = nat1;
 values
 -- TODO Define values here
 instance variables

@@ -2,6 +2,7 @@ class Player
 types
 -- TODO Define types here
 values
+	public nPieces = 14;
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
