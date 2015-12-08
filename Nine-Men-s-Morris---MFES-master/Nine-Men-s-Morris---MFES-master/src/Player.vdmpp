@@ -1,0 +1,109 @@
+class Player
+values
+  public TOTAL_PIECES : nat = 9;
+
+instance variables
+  private pieceType : Board`PieceType := <WHITE>;
+  private totalPieces : nat := TOTAL_PIECES;
+  private unplayedPieces : nat := TOTAL_PIECES;
+  private mills : set of set of seq of nat1 := {};
+  inv pieceType <> <UNDEFINED>;
+  inv totalPieces >= 0;
+  inv unplayedPieces >= 0;
+
+operations
+
+  public Player : (Board`PieceType) ==> Player
+  Player(type) ==
+  (
+    mills := {};
+  	pieceType := type;
+  	totalPieces := TOTAL_PIECES;
+  	unplayedPieces := TOTAL_PIECES;
+  )
+  pre type <> <UNDEFINED>;
+  
+  public setMills : set of set of seq of nat1 ==> ()
+  setMills(m) ==
+  (
+    mills := m;
+  );
+  
+  public getMills : () ==> set of set of seq of nat1
+  getMills() ==
+  (
+    return mills;
+  );
+
+  public lost : () ==> bool
+  lost() ==
+  (
+  	return totalPieces < 3;
+  );
+
+  public reset : () ==> ()
+  reset() ==
+  (
+  	totalPieces := TOTAL_PIECES;
+  	unplayedPieces := TOTAL_PIECES;
+  );
+
+  public getPieceType : () ==> Board`PieceType
+  getPieceType() ==
+  (
+  	return pieceType;
+  )
+  pre pieceType <> <UNDEFINED>;
+
+  public decTotalPieces : () ==> ()
+  decTotalPieces() ==
+  (
+  	totalPieces := totalPieces - 1;
+  )
+  pre totalPieces - 1 >= 0;
+
+  public getTotalPieces : () ==> nat
+  getTotalPieces() ==
+  (
+  	return totalPieces;
+  );
+
+  public setTotalPieces : nat ==> ()
+  setTotalPieces(nPieces) ==
+  (
+  	totalPieces := nPieces;
+  )
+  pre nPieces >= 0;
+
+  public decUnplayedPieces : () ==> ()
+  decUnplayedPieces() ==
+  (
+  	unplayedPieces := unplayedPieces - 1;
+  )
+  pre unplayedPieces - 1 >= 0;
+
+  public getUnplayedPieces : () ==> nat
+  getUnplayedPieces() ==
+  (
+  	return unplayedPieces;
+  );
+
+  public setUnplayedPieces : nat ==> ()
+  setUnplayedPieces(nPieces) ==
+  (
+  	unplayedPieces := nPieces;
+  )
+  pre nPieces >= 0;
+
+  public setPieceType : Board`PieceType ==> ()
+  setPieceType(type) ==
+  (
+  	pieceType := type;
+  )
+  pre type <> <UNDEFINED>;
+
+
+end Player
+
+
+

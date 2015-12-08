@@ -1,13 +1,25 @@
 class Player
 types
 -- TODO Define types here
+	public nPiecesBoard = nat;
+	public nPiecesBench = nat;
+	public PlayerName = seq1 of char;
 values
-	public nPieces = 14;
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
+	public nboard : nPiecesBoard;
+	public nbench : nPiecesBench;
+	public name : PlayerName;
 operations
 -- TODO Define operations here
+public Player: PlayerName ==> Player
+	Player(pn) == (
+	name := pn;
+	nboard := 14;
+	nbench := 14;
+	return self;
+	);
 functions
 -- TODO Define functiones here
 traces
