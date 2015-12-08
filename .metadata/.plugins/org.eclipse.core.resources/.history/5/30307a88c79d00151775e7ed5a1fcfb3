@@ -1,0 +1,29 @@
+class MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+operations
+-- TODO Define operations here
+	public AssertTrue: bool ==> ()
+	AssertTrue(a) == return
+	pre a;
+ public AssertFalse : bool ==> ()
+ AssertFalse(a) == return
+ pre not a;
+ public TestBoardSetup : () ==> ()
+ TestBoardSetup() ==
+ (
+  dcl b : Board := new Board();
+  dcl p2 : map seq of nat1 to Board`Type := b.getBoard();
+  p2 := b.getBoard();
+	  return
+ );
+ 
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end MyTestCase

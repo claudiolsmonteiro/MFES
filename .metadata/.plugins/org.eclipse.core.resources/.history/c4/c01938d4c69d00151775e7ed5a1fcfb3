@@ -1,0 +1,76 @@
+class MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+operations
+-- TODO Define operations here
+	public AssertTrue: bool ==> ()
+	AssertTrue(a) == return
+	pre a;
+ public AssertFalse : bool ==> ()
+ AssertFalse(a) == return
+ pre not a;
+ public TestBoardSetup : () ==> ()
+ TestBoardSetup() ==
+ (
+  dcl b : Board := new Board();
+  dcl p2 : map seq of nat1 to Board`PieceType := b.getBoard();
+  b.reset();
+  p2 := b.getBoard();
+  b.put(<WHITE>, [1,1]);
+  b.put(<BLACK>, [7,7]);
+  b.put(<BLACK>, [5,4]);
+  AssertTrue(b.getPiece([1,1]) = <WHITE>);
+  AssertTrue(b.getPiece([7,7]) = <BLACK>);
+  AssertTrue(b.getPiece([7,1]) = <UNDEFINED>);
+  AssertFalse(b.puttable([1,1]));
+  AssertFalse(b.puttable([7,7]));
+  AssertFalse(b.puttable([5,4]));
+  b.remove([1,1]);
+  AssertTrue(b.puttable([1,1]));
+  b.reset();
+  AssertTrue(b.puttable([1,1]));
+  AssertTrue(b.puttable([1,4]));
+  AssertTrue(b.puttable([1,7]));
+  AssertTrue(b.puttable([2,2]));
+  AssertTrue(b.puttable([2,4]));
+  AssertTrue(b.puttable([2,6]));
+  AssertTrue(b.puttable([3,3]));
+  AssertTrue(b.puttable([3,4]));
+  AssertTrue(b.puttable([3,5]));
+  AssertTrue(b.puttable([4,1]));
+  AssertTrue(b.puttable([4,2]));
+  AssertTrue(b.puttable([4,3]));
+  AssertTrue(b.puttable([4,5]));
+  AssertTrue(b.puttable([4,6]));
+  AssertTrue(b.puttable([4,7]));
+  AssertTrue(b.puttable([5,3]));
+  AssertTrue(b.puttable([5,4]));
+  AssertTrue(b.puttable([5,5]));
+  AssertTrue(b.puttable([6,2]));
+  AssertTrue(b.puttable([6,4]));
+  AssertTrue(b.puttable([6,6]));
+  AssertTrue(b.puttable([7,1]));
+  AssertTrue(b.puttable([7,4]));
+  AssertTrue(b.puttable([7,7]));
+	  AssertTrue(p2 = {
+     [1,1] |-> <UNDEFINED>, [1,4] |-> <UNDEFINED>, [1,7] |-> <UNDEFINED>,
+     [2,2] |-> <UNDEFINED>, [2,4] |-> <UNDEFINED>, [2,6] |-> <UNDEFINED>,
+     [3,3] |-> <UNDEFINED>, [3,4] |-> <UNDEFINED>, [3,5] |-> <UNDEFINED>,
+     [4,1] |-> <UNDEFINED>, [4,2] |-> <UNDEFINED>, [4,3] |-> <UNDEFINED>,
+     [4,5] |-> <UNDEFINED>, [4,6] |-> <UNDEFINED>, [4,7] |-> <UNDEFINED>,
+     [5,3] |-> <UNDEFINED>, [5,4] |-> <UNDEFINED>, [5,5] |-> <UNDEFINED>,
+     [6,2] |-> <UNDEFINED>, [6,4] |-> <UNDEFINED>, [6,6] |-> <UNDEFINED>,
+     [7,1] |-> <UNDEFINED>, [7,4] |-> <UNDEFINED>, [7,7] |-> <UNDEFINED>
+   });
+	  return
+ );
+ 
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end MyTestCase
