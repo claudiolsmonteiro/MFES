@@ -1,0 +1,70 @@
+class Player
+types
+-- TODO Define types here
+	nPecas ::nboard : nat1
+					 nbench : nat;
+	inv np == 
+	public PlayerName = <player1> | <player2>;
+	public Active = bool;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+	public name : PlayerName;
+	public np : nPecas;
+	public currentplayer : Active;
+operations
+-- TODO Define operations here
+public Player: PlayerName ==> Player
+	Player(pn) == (
+	name := pn;
+	if name = <player1> 
+		then currentplayer := true 
+		else currentplayer := false;
+	np := mk_nPecas(14,14);
+	return self;
+	);
+	
+	public getName : () ==> PlayerName
+	getName() ==
+	(
+		return name;
+	);
+	public setName : PlayerName ==> ()
+	setName(PlayerName) ==
+	(
+		name :=PlayerName;
+	);
+	
+	public getActive : () ==> Active
+	getActive () ==
+	(
+		return currentplayer;
+	);
+	
+	public setActive : Active ==> ()
+	setActive(Active) ==
+	(
+		currentplayer := Active;
+	);
+	
+	public getnBoard : () ==> nat
+	getnBoard () ==
+	(
+		return np.nboard;
+	);
+	
+	public getnBench : () ==> nat
+	getnBench () ==
+	(
+		return np.nbench;
+	);
+	
+	
+	
+	
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Player

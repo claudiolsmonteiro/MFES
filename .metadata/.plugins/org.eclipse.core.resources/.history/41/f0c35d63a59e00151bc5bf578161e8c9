@@ -1,0 +1,17 @@
+class Game
+types
+-- TODO Define types here
+public Name = <p1> | <p2>;
+public board = Board;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+public x : board := new Board();
+operations
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Game
