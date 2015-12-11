@@ -1,0 +1,38 @@
+class Game
+types
+-- TODO Define types here
+--public Name = <p1> | <p2>;
+--public board = Board;
+public pName = Player'name;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+public gameBoard : Board;
+public player1 : Player;
+public player2 : Player;
+operations
+-- TODO Define operations here
+	public Game :() ==> Game
+	Game () ==
+		(
+			gameBoard := new Board();
+			player1 := new Player(<player1>);
+			player2 := new Player(<player2>);
+		);
+		
+		  public correctpiece : seq of nat * Player'PlayerName ==> bool
+  correctpiece(array,name) ==
+  (
+  	if name = <player1> and board(array) = <White>
+  	then return true
+  	elseif name = <player2> and board(array) = <Black> 
+  	then return true
+  	else
+  	return false;
+  )
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Game
