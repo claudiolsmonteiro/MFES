@@ -1,0 +1,80 @@
+class Game
+types
+-- TODO Define types here
+--public Name = <p1> | <p2>;
+--public board = Board;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+public gameBoard : Board;
+public player1 : Player;
+public player2 : Player;
+operations
+-- TODO Define operations here
+	public Game :() ==> Game
+	Game () ==
+		(
+			gameBoard := new Board();
+			player1 := new Player(<player1>);
+			player2 := new Player(<player2>);
+		);
+		
+	public correctpiece : Player`PlayerName * seq of nat ==> bool
+  correctpiece(name,array) ==
+  (
+  	if name = <player1> and gameBoard.getBoard()(array) = <White>
+  	then return true
+  	elseif name = <player2> and gameBoard.getBoard()(array) = <Black> 
+  	then return true
+  	else
+  	return false;
+  );
+  
+   	public currentplayer : () ==> Player
+ 	currentplayer() ==
+ 	(
+ 		player1.changeActive();
+ 		player2.changeActive();
+ 		if player1.getActive() = false
+ 		then return player1
+ 		else
+ 		return player2
+ 	);
+ 	
+  public getplayer1 : () ==> Player
+  getplayer1() ==
+  (
+  return player1;
+  );
+  
+  public getplayer2 : () ==> Player
+  getplayer2() ==
+  (
+  return player2;
+  );
+ 
+ 	public checkhorizontalvertical : seq of nat * seq of nat ==> bool
+ 	checkhorizontalvertical(current,objective) ==
+ 	(
+ 		if (current(1) = objective(1) or current(2) = objective(2)) and (current(1) <> objective(2) or current(2) <> objective(1))
+ 		then return true
+ 		else
+ 		return false;
+  );
+  
+  --public changepiecesbetween : seq of nat * seq of nat ==> ()
+  --changepiecesbetween(current,objective) ==
+  --(
+  --	if current(1) = objective(1)
+  --	then forall
+  	
+
+  --);
+  --TODO: check piece %
+  
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Game
