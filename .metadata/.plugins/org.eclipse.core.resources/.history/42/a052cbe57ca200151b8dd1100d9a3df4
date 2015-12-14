@@ -1,0 +1,225 @@
+class Game
+types
+-- TODO Define types here
+--public Name = <p1> | <p2>;
+--public board = Board;
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+public gameBoard : Board;
+public player1 : Player;
+public player2 : Player;
+operations
+-- TODO Define operations here
+	public Game :() ==> Game
+	Game () ==
+		(
+			gameBoard := new Board();
+			player1 := new Player(<player1>);
+			player2 := new Player(<player2>);
+		);
+		
+	public correctpiece : Player`PlayerName * seq of nat ==> bool
+  correctpiece(name,array) ==
+  (
+  	if name = <player1> and gameBoard.getBoard()(array) = <White>
+  	then return true
+  	elseif name = <player2> and gameBoard.getBoard()(array) = <Black> 
+  	then return true
+  	else
+  	return false;
+  );
+  
+  public currentplayer : () ==> Player
+ 	currentplayer() ==
+ 	(
+ 		if player1.getActive() = true
+ 		then return player1
+ 		else
+ 		return player2
+ 	);
+  
+  public secondplayer : () ==> Player
+ 	secondplayer() ==
+ 	(
+ 		if player1.getActive() = true
+ 		then return player2 
+ 		else
+ 		return player1
+ 	); 	
+ 	
+ 	public changecurrentplayer :() ==> ()
+ 	changecurrentplayer() ==
+ 	(
+ 	 	player1.changeActive();
+ 		player2.changeActive();
+ 	);
+ 	
+ 	
+  public getplayer1 : () ==> Player
+  getplayer1() ==
+  (
+  return player1;
+  );
+  
+  public getplayer2 : () ==> Player
+  getplayer2() ==
+  (
+  return player2;
+  );
+ 
+ 	public checkhorizontalvertical : seq of nat * seq of nat ==> bool
+ 	checkhorizontalvertical(current,objective) ==
+ 	(
+ 		if (current(1) = objective(1) or current(2) = objective(2)) and (current(1) <> objective(2) or current(2) <> objective(1))
+ 		then return true
+ 		else
+ 		return false;
+  );
+  
+  public getNextFriendlyPos: seq of nat * nat ==> seq of nat  
+  getNextFriendlyPos(currentPos, direction) ==
+  (
+  	if direction = 0 and currentPos(1)<>0--up
+  	then
+  	for i = currentPos(1)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([i,currentPos(2)])
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 1 and currentPos(1)<>7--down
+  	then
+  	for i = currentPos(1)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([i,currentPos(2)])
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 2 and currentPos(2)<>0--left
+  	then
+  	for i = currentPos(2)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([currentPos(1),i])
+  		then
+  		return [currentPos(1),i]
+  	)
+  	elseif direction = 3 and currentPos(2)<>7--right
+  	then
+  	for i = currentPos(2)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([currentPos(1),i])
+  		then
+  		return [currentPos(1),i]
+  	);
+  	
+  	return [9,9];
+  );
+  
+  public getNextPos: seq of nat * nat ==> seq of nat  
+  getNextPos(currentPos, direction) ==
+  (
+  	if direction = 0 and currentPos(1)<>0 --up
+  	then
+  	for i = currentPos(1)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()([i,currentPos(2)]) <> <Space>
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 1 and currentPos(1)<>7 --down
+  	then
+  	for i = currentPos(1)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()([i,currentPos(2)]) <> <Space>
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 2 and currentPos(2)<>0--left
+  	then
+  	for i = currentPos(2)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()([currentPos(1),i]) <> <Space>
+  		then
+  		return [currentPos(1),i]
+  	)
+  	elseif direction = 3 and currentPos(2)<>7--right
+  	then
+  	for i = currentPos(2)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()([currentPos(1),i]) <> <Space>
+  		then
+  		return [currentPos(1),i]
+  	);
+  	
+  	return [9,9];
+  );
+  
+  public movepiece : seq of nat * seq of nat ==> bool
+  movepiece(current,objective) ==
+  (
+  	gameBoard.setBoard(gameBoard.getBoard() ++ {objective |-> gameBoard.getBoard()(current)});
+  	gameBoard.setBoard(gameBoard.getBoard() ++ {current |-> <Space>});
+  	return true
+  )
+  --pre current(1) > -1 and current(1) < 8 and current(1) > -1 and current(1) < 8;
+  pre gameBoard.movepossible(objective) = true and checkhorizontalvertical(current,objective)= true;
+  
+  
+  
+  
+  
+  
+  
+  public changepiecesbetween : seq of nat * seq of nat ==> ()
+  changepiecesbetween(current,objective) ==
+  (
+  	if current(1) = objective(1)
+  	then 
+  	for i = current(2) to objective(2) do
+  		(
+  			if gameBoard.getBoard()([current(1),current(2)]) <> gameBoard.getBoard()([current(1),i]) and gameBoard.getBoard()([current(1),i]) <> <Space>
+  			then
+  			gameBoard.setBoard(gameBoard.getBoard() ++ {[current(1),i] |-> gameBoard.getBoard()([current(1),current(2)])});
+  			
+  			if gameBoard.getBoard()([current(1),i]) = <White> or gameBoard.getBoard()([current(1),i]) = <Black>
+  			then 
+  				updatepiecenr(<colour>)
+  			else
+  				updatepiecenr(<space>);
+			)
+		elseif current(2) = objective(2)
+		then
+		  	for i = current(1) to objective(1) do
+  		(
+  			if gameBoard.getBoard()([current(1),current(2)]) <> gameBoard.getBoard()([i,current(2)]) and gameBoard.getBoard()([i,current(2)]) <> <Space>
+  			then
+  			gameBoard.setBoard(gameBoard.getBoard() ++ {[i,current(2)] |-> gameBoard.getBoard()([current(1),current(2)])});
+  			
+  			if gameBoard.getBoard()([i,current(2)]) = <White> or gameBoard.getBoard()([i,current(2)]) = <Black>
+  			then 
+  				updatepiecenr(<colour>)
+  			else
+  				updatepiecenr(<space>);
+			);
+  );
+ 
+ public updatepiecenr : Player`PieceType ==> ()
+  updatepiecenr(type) ==
+  (
+  	currentplayer().updatepieces(type);
+  	secondplayer().removepieces(type);
+  
+  );
+  --TODO: check piece %
+  
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Game

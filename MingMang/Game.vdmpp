@@ -7,9 +7,9 @@ values
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
-public gameBoard : Board;
-public player1 : Player;
-public player2 : Player;
+private gameBoard : Board;
+private player1 : Player;
+private player2 : Player;
 operations
 -- TODO Define operations here
 	public Game :() ==> Game
@@ -20,7 +20,7 @@ operations
 			player2 := new Player(<player2>);
 		);
 		
-	public correctpiece : Player`PlayerName * seq of nat ==> bool
+	public pure correctpiece : Player`PlayerName * seq of nat ==> bool
   correctpiece(name,array) ==
   (
   	if name = <player1> and gameBoard.getBoard()(array) = <White>
@@ -31,7 +31,7 @@ operations
   	return false;
   );
   
-  public currentplayer : () ==> Player
+  public pure currentplayer : () ==> Player
  	currentplayer() ==
  	(
  		if player1.getActive() = true
@@ -44,7 +44,7 @@ operations
  	secondplayer() ==
  	(
  		if player1.getActive() = true
- 		then return player2
+ 		then return player2 
  		else
  		return player1
  	); 	
@@ -69,7 +69,7 @@ operations
   return player2;
   );
  
- 	public checkhorizontalvertical : seq of nat * seq of nat ==> bool
+ 	public pure checkhorizontalvertical : seq of nat * seq of nat ==> bool
  	checkhorizontalvertical(current,objective) ==
  	(
  		if (current(1) = objective(1) or current(2) = objective(2)) and (current(1) <> objective(2) or current(2) <> objective(1))
@@ -77,6 +77,98 @@ operations
  		else
  		return false;
   );
+  
+  public getNextFriendlyPos: seq of nat * nat ==> seq of nat  
+  getNextFriendlyPos(currentPos, direction) ==
+  (
+  	if direction = 0 and currentPos(1)<>0--up
+  	then
+  	for i = currentPos(1)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([i,currentPos(2)])
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 1 and currentPos(1)<>7--down
+  	then
+  	for i = currentPos(1)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([i,currentPos(2)])
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 2 and currentPos(2)<>0--left
+  	then
+  	for i = currentPos(2)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([currentPos(1),i])
+  		then
+  		return [currentPos(1),i]
+  	)
+  	elseif direction = 3 and currentPos(2)<>7--right
+  	then
+  	for i = currentPos(2)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()(currentPos) = gameBoard.getBoard()([currentPos(1),i])
+  		then
+  		return [currentPos(1),i]
+  	);
+  	
+  	return [9,9];
+  );
+  
+  public getNextPos: seq of nat * nat ==> seq of nat  
+  getNextPos(currentPos, direction) ==
+  (
+  	if direction = 0 and currentPos(1)<>0 --up
+  	then
+  	for i = currentPos(1)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()([i,currentPos(2)]) <> <Space>
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 1 and currentPos(1)<>7 --down
+  	then
+  	for i = currentPos(1)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()([i,currentPos(2)]) <> <Space>
+  		then
+  		return [i,currentPos(2)]
+  	)
+  	
+  	elseif direction = 2 and currentPos(2)<>0--left
+  	then
+  	for i = currentPos(2)-1 to 0 do
+  	(
+  		if gameBoard.getBoard()([currentPos(1),i]) <> <Space>
+  		then
+  		return [currentPos(1),i]
+  	)
+  	elseif direction = 3 and currentPos(2)<>7--right
+  	then
+  	for i = currentPos(2)+1 to 7 do
+  	(
+  		if gameBoard.getBoard()([currentPos(1),i]) <> <Space>
+  		then
+  		return [currentPos(1),i]
+  	);
+  	
+  	return [9,9];
+  );
+  
+  public movepiece : seq of nat * seq of nat ==> bool
+  movepiece(current,objective) ==
+  (
+  	gameBoard.setBoard(gameBoard.getBoard() ++ {objective |-> gameBoard.getBoard()(current)});
+  	gameBoard.setBoard(gameBoard.getBoard() ++ {current |-> <Space>});
+  	return true;
+  )
+  pre correctpiece(currentplayer().getName(),current) and gameBoard.movepossible(objective) and checkhorizontalvertical(current,objective);  
+  
   
   public changepiecesbetween : seq of nat * seq of nat ==> ()
   changepiecesbetween(current,objective) ==
@@ -116,8 +208,28 @@ operations
   (
   	currentplayer().updatepieces(type);
   	secondplayer().removepieces(type);
+  );
+  
+  public updatePositionsOwned : () ==> ()
+  updatePositionsOwned() ==
+  (
+  player1.resetPosOwned();
+  player2.resetPosOwned();
+  
+  dcl i : nat;
+  
+  for line = 0 to 7 do --check horizontally
+  (
+  	for column = 0 to 7 do
+  	(
+  		if gameBoard.getBoard()([line,column]) <> <Space>
+  		then
+  			
+  	)
+  )
   
   );
+  
   --TODO: check piece %
   
 functions

@@ -8,14 +8,17 @@ types
 	public PlayerName = <player1> | <player2>;
 	public PieceType = <colour> | <space>;
 	public Active = bool;
+	public PositionsOwned = seq of seq of nat
 values
 -- TODO Define values here
 instance variables
 -- TODO Define instance variables here
-	public name : PlayerName;
-	public np : nPecas;
-	public currentplayer : Active;
-	public pass : Active;
+	private name : PlayerName;
+	private np : nPecas;
+	private currentplayer : Active;
+	private pass : Active;
+	private posOwned : PositionsOwned;
+	
 operations
 -- TODO Define operations here
 public Player: PlayerName ==> Player
@@ -24,12 +27,13 @@ public Player: PlayerName ==> Player
 	if name = <player1> 
 	then currentplayer := true 
 	else currentplayer := false;
-	np := mk_nPecas(14,14,0);
+	np := mk_nPecas(14,14,14);
 	pass := false;
+	posOwned := [];
 	return self;
 	);
 	
-	public getName : () ==> PlayerName
+	public pure getName : () ==> PlayerName
 	getName() ==
 	(
 		return name;
@@ -40,7 +44,7 @@ public Player: PlayerName ==> Player
 		name :=PlayerName;
 	);
 	
-	public getActive : () ==> Active
+	public pure getActive : () ==> Active
 	getActive () ==
 	(
 		return currentplayer;
@@ -140,6 +144,24 @@ public Player: PlayerName ==> Player
 		np.nboard := np.nboard -1;
 		np.nbench := np.nbench +1;
 		np.nowned := np.nowned -1;
+	);
+	
+	public addPosOwned : seq of nat ==> ()
+	addPosOwned(pos) ==
+	(
+		posOwned := posOwned ^ [pos];
+	);
+	
+	public pure getPosOwned : () ==> PositionsOwned
+	getPosOwned() ==
+	(
+	return posOwned;
+	);
+	
+	public resetPosOwned : () ==> ()
+	resetPosOwned() ==
+	(
+	posOwned := [];
 	);
 	
 	
