@@ -1,0 +1,177 @@
+class Player
+types
+-- TODO Define types here
+	nPecas ::nboard : nat1
+					 nbench : nat
+					 nowned : nat
+	inv np == np.nboard > 1 and np.nbench >= 0;
+	public PlayerName = <player1> | <player2>;
+	public PieceType = <colour> | <space>;
+	public Active = bool;
+	public PositionsOwned = seq of seq of nat
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+	private name : PlayerName;
+	private np : nPecas;
+	private currentplayer : Active;
+	private pass : Active;
+	private posOwned : PositionsOwned;
+	
+operations
+-- TODO Define operations here
+public Player: PlayerName ==> Player
+	Player(pn) == (
+	name := pn;
+	if name = <player1> 
+	then currentplayer := true 
+	else currentplayer := false;
+	np := mk_nPecas(14,14,14);
+	pass := false;
+	posOwned := [];
+	return self;
+	);
+	
+	public pure getName : () ==> PlayerName
+	getName() ==
+	(
+		return name;
+	);
+	public setName : PlayerName ==> ()
+	setName(PlayerName) ==
+	(
+		name :=PlayerName;
+	);
+	
+	public pure getActive : () ==> Active
+	getActive () ==
+	(
+		return currentplayer;
+	);
+	
+	public setActive : Active ==> ()
+	setActive(Active) ==
+	(
+		currentplayer := Active;
+	);
+	public changeActive : () ==> ()
+	changeActive() ==
+	(
+		if currentplayer = true
+		then currentplayer :=false
+		else
+		currentplayer := true;
+	);
+	
+	public getnBoard : () ==> nat
+	getnBoard () ==
+	(
+		return np.nboard;
+	);
+	
+	public setnBoard : nat1 ==> ()
+	setnBoard(nboard) ==
+	(
+		np.nboard := nboard;
+	);
+	
+	public getnBench : () ==> nat
+	getnBench () ==
+	(
+		return np.nbench;
+	);
+	
+	public setnBench : nat ==> ()
+	setnBench(nbench) ==
+	(
+		np.nbench := nbench;
+	);
+	
+	public setnOwned : nat ==> ()
+	setnOwned(nowned) ==
+	(
+		np.nowned := nowned;
+	);
+	
+	public getnOwned : () ==> nat
+	getnOwned () ==
+	(
+		return np.nowned;
+	);
+
+	public getPass : () ==> bool
+	getPass () ==
+	(
+		return pass;
+	);
+
+	public setPass : bool ==> ()
+	setPass (Pass) ==
+	(
+	pass := Pass;
+	);	
+	
+	public updatepieces : PieceType ==> ()
+	updatepieces(type) ==
+	(
+		if type = <colour>
+		then addboard()
+		else 
+		setnOwned(np.nowned+1);
+	);
+	
+	public addboard : () ==> ()
+	addboard() ==
+	(
+		np.nboard := np.nboard +1;
+		np.nbench := np.nbench -1;
+		np.nowned := np.nowned +1;
+	);
+	
+	public removepieces : PieceType ==> ()
+	removepieces(type) ==
+	(
+		if type = <colour>
+		then removeboard()
+		else 
+		setnOwned(np.nowned-1);
+	);
+	
+	public removeboard : () ==> ()
+	removeboard() ==
+	(
+		np.nboard := np.nboard -1;
+		np.nbench := np.nbench +1;
+		--np.nowned := np.nowned -1;
+	);
+	
+	public addPosOwned : seq of nat ==> ()
+	addPosOwned(pos) ==
+	(
+		posOwned := posOwned ^ [pos];
+	);
+	
+	public pure getPosOwned : () ==> PositionsOwned
+	getPosOwned() ==
+	(
+	return posOwned;
+	);
+	
+	public resetPosOwned : () ==> ()
+	resetPosOwned() ==
+	(
+	np.nowned := 0;
+	posOwned := [];
+	);
+	
+	public increaseOwned : () ==> ()
+	increaseOwned() ==
+	(
+		np.nowned := np.nowned +1;
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Player
