@@ -1,0 +1,20 @@
+class TestGame is subclass of MyTestCase
+operations
+public TestGameStart :() ==> ()
+TestGameStart() ==
+(
+	dcl g : Game := new Game();
+	return;
+);
+
+
+
+
+
+
+
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TestGame

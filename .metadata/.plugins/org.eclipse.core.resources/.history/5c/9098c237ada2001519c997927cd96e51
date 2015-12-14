@@ -1,0 +1,33 @@
+class TestGame is subclass of MyTestCase
+operations
+public TestGameStart :() ==> ()
+TestGameStart() ==
+(
+	dcl g : Game := new Game();
+	assertEqual(g.getplayer1().getName(),<player1>);
+	assertEqual(g.getplayer2().getName(),<player2>);
+	assertEqual(g.currentplayer().getName(),<player1>);
+	return;
+);
+
+TestMovePiece() ==
+(
+
+	Return;
+);
+public static main: () ==> ()
+                main() ==
+                (
+                   new TestGame().TestGameStart();
+                        
+                );
+
+
+
+
+
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TestGame

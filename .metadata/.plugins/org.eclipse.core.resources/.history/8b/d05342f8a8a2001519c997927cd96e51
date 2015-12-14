@@ -1,0 +1,181 @@
+
+class Player
+types
+/*
+	Npecas corresponde ao numero de pecas que o jogador tem em jogo, no banco e que controla.
+	PlayerName corresponde ao nome do jogador.
+	PieceType corresponde ao tipo de peca que se encontra numa posicao
+	Active - bool para identificar se o jogador esta activo ou nao
+*/
+	nPecas ::nboard : nat1
+					 nbench : nat
+					 nowned : nat
+	inv np == np.nboard > 1 and np.nbench >= 0;
+	public PlayerName = <player1> | <player2>;
+	public PieceType = <colour> | <space>;
+	public Active = bool;
+values
+-- TODO Define values here
+instance variables
+	/*
+	Definicao das variaveis necessarias
+	*/
+	private name : PlayerName;
+	private np : nPecas;
+	private currentplayer : Active;
+	private pass : Active;
+	
+operations
+/*
+Constructor de um novo jogador.
+*/
+public Player: PlayerName ==> Player
+	Player(pn) == (
+	name := pn;
+	if name = <player1> 
+	then currentplayer := true 
+	else currentplayer := false;
+	np := mk_nPecas(14,14,0);
+	pass := false;
+	return self;
+	);
+	
+	/* 
+	Lista de gets e sets correspondentes ao jogador.
+	*/
+	public pure getName : () ==> PlayerName
+	getName() ==
+	(
+		return name;
+	);
+	public setName : PlayerName ==> ()
+	setName(PlayerName) ==
+	(
+		name :=PlayerName;
+	);
+	
+	public pure getActive : () ==> Active
+	getActive () ==
+	(
+		return currentplayer;
+	);
+	
+	public setActive : Active ==> ()
+	setActive(Active) ==
+	(
+		currentplayer := Active;
+	);
+	public changeActive : () ==> ()
+	changeActive() ==
+	(
+		if currentplayer = true
+		then currentplayer :=false
+		else
+		currentplayer := true;
+	);
+	
+	public pure getnBoard : () ==> nat
+	getnBoard () ==
+	(
+		return np.nboard;
+	);
+	
+	public setnBoard : nat1 ==> ()
+	setnBoard(nboard) ==
+	(
+		np.nboard := nboard;
+	);
+	
+	public getnBench : () ==> nat
+	getnBench () ==
+	(
+		return np.nbench;
+	);
+	
+	public setnBench : nat ==> ()
+	setnBench(nbench) ==
+	(
+		np.nbench := nbench;
+	);
+	
+	public setnOwned : nat ==> ()
+	setnOwned(nowned) ==
+	(
+		np.nowned := nowned;
+	);
+	
+	public pure getnOwned : () ==> nat
+	getnOwned () ==
+	(
+		return np.nowned;
+	);
+
+	public getPass : () ==> bool
+	getPass () ==
+	(
+		return pass;
+	);
+
+	public setPass : bool ==> ()
+	setPass (Pass) ==
+	(
+	pass := Pass;
+	);	
+	
+	/*
+	Fim dos gets e sets
+	*/
+	
+	/*
+		chama a funcao addboard que retira uma peca do banco para o tabuleiro
+	*/
+	public updatepieces : PieceType ==> ()
+	updatepieces(type) ==
+	(
+		if type = <colour>
+		then addboard()
+	);
+	
+	/*
+		Funcao chamada pela anterior para atualizar os numeros de peças que o jogador tem no tabuleiro e no banco
+	*/
+	public addboard : () ==> ()
+	addboard() ==
+	(
+		np.nboard := np.nboard +1;
+		np.nbench := np.nbench -1;
+	);
+	
+	/*
+	Faz o inverso da anterior, chama a funcao removeboard que retira uma peca do tabuleiro e volta a por no banco
+	*/
+	public removepieces : PieceType ==> ()
+	removepieces(type) ==
+	(
+		if type = <colour>
+		then removeboard()
+	);
+	
+	public removeboard : () ==> ()
+	removeboard() ==
+	(
+		np.nboard := np.nboard -1;
+		np.nbench := np.nbench +1;
+	);
+	
+	public resetPosOwned : () ==> ()
+	resetPosOwned() ==
+	(
+	np.nowned := 0;
+	);
+	
+	public increaseOwned : () ==> ()
+	increaseOwned() ==
+	(
+		np.nowned := np.nowned +1;
+	);
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Player

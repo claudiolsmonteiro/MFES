@@ -1,0 +1,55 @@
+class TestPlayer is subclass of MyTestCase
+types
+-- TODO Define types here
+values
+-- TODO Define values here
+instance variables
+-- TODO Define instance variables here
+operations
+-- TODO Define operations here
+public TestPlayerStart :() ==> ()
+TestPlayerStart() ==
+(
+	dcl player : Player := new Player(<player1>);
+	assertEqual(player.getName(),<player1>);
+	assertTrue(player.getActive());
+	assertEqual(player.getnBoard(),14);
+	player.setnBoard(15);
+	assertEqual(player.getnBoard(),15);
+	assertEqual(player.getnBench(),14);
+	player.setnBench(15);
+	assertEqual(player.getnBench(),15);
+	return;
+);
+
+TestUpdateRemovepieces: () ==> ()
+TestUpdateRemovepieces() ==
+(
+	dcl p : Player := new Player(<player1>);
+	assertEqual(p.getnBoard(),14);
+	assertEqual(p.getnBench(),14);
+	p.updatepieces(<colour>);
+	assertEqual(p.getnBoard(),15);
+	assertEqual(p.getnBench(),13);
+	p.removepieces(<colour>);
+	assertEqual(p.getnBoard(),14);
+	assertEqual(p.getnBench(),14);
+	
+	p.resetPosOwned();
+	assertEqual(p.getnOwned(),0);
+	p.increaseOwned();
+	assertEqual(p.getnOwned(),1);
+	return;
+);
+
+public static main: () ==> ()
+                main() ==
+                (
+                   new TestPlayer().TestPlayerStart();
+                   new TestPlayer().TestUpdateRemovepieces();
+                );
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end TestPlayer
